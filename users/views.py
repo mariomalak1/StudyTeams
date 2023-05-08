@@ -19,10 +19,13 @@ def login_function(request):
             except:
                 return redirect("home")
         else:
-            print("you don't in system")
-            messages.add_message(request, messages.ERROR, "You Not Are In System Yet")
+            messages.add_message(request, messages.ERROR, "You Not Are In System Yet, You Can Sign Up From Here")
+            redirect("signup")
     return render(request, "users/login.html")
 
-def Logout_function(request):
+def logout_function(request):
     logout(request)
     return redirect("login")
+
+def signup_function(request):
+    pass
