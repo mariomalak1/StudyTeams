@@ -15,7 +15,7 @@ def login_function(request):
             login(request, user)
             messages.add_message(request, messages.SUCCESS, f"Hello {user.username}")
             try:
-                return redirect(self.request.GET.get('next'))
+                return redirect(request.GET.get('next'))
             except:
                 return redirect("home")
         else:
