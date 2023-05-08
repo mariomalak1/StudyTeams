@@ -1,0 +1,35 @@
+
+          <div class="flashMessage row">
+              {% block flashMessage %}
+                  {#    flash messages    #}
+                  {% if messages %}
+                      <!-- Alert -->
+                      {% for message in messages %}
+                              {% if message.tags == "success" %}
+                                  <div class="alert alert-success alert-dismissible d-flex align-items-center fade show">
+                                      <i class="fa-sharp fa-light fa-badge-check"></i>
+                                  </div>
+{#                                  <i class="bi-check-circle-fill"></i>#}
+                              {% elif message.tags == "error" %}
+                                  <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show">
+                                      <i class="fa-solid fa-circle-exclamation"></i>
+                                  </div>
+{#                                  <i class="bi-exclamation-octagon-fill"></i>#}
+                              {% elif message.tags == "warning" %}
+                                  <div class="alert alert-warning alert-dismissible d-flex align-items-center fade show">
+                                      <i class="bi-exclamation-triangle-fill"></i>
+                                  </div>
+                              {% elif message.tags == "info" %}
+                                  <div class="alert alert-info alert-dismissible d-flex align-items-center fade show">
+                                      <i class="bi-info-circle-fill"></i>
+                                  </div>
+                              {% endif %}
+
+                              {{ message }}
+
+                              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                          </div>
+                      {% endfor %}
+                  {% endif %}
+              {% endblock %}
+          </div>
