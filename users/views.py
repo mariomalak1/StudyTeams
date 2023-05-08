@@ -1,25 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User as django_user_model
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 
-from .forms import LoginForm
 # Create your views here.
 
 def login_function(request):
     if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = authenticate(
-                username = form.cleaned_data.get("username"),
-                password = form.cleaned_data.get("password"),
-            )
-            if user is not None:
-                login(request, user)
-                messages.add_message(request, messages.SUCCESS, f"Hello {user.username}")
-            else:
-                messages.add_message(request, messages.ERROR, "You Not Are In System Yet")
-    else:
-        form = LoginForm()
-    context = {"form":form}
-    return render(request, "users/login.html", context)
+        user_name = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username = user_name, password = password)
+        if user is not None:
+            login(request, user)
+            messages.add_message(request, messages.SUCCESS, f"Hello {user.username}")
+            try:
+                return redirect(self.request.GET.get('next'))
+            except:
+                return redirect("home")
+        else:
+            print("you don't in system")
+            messages.add_message(request, messages.ERROR, "You Not Are In System Yet")
+    return render(request, "users/login.html")
+
+def Logout_function(request):
+    logout(request)
+    return redirect("login")

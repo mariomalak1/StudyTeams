@@ -5,5 +5,4 @@ from django.contrib import messages
 
 # @login_required
 def home(request):
-    messages.add_message(request, messages.SUCCESS, "my message")
     return render(request, "base\home.html")
