@@ -167,7 +167,7 @@ a {
 .avatar.avatar--small:after {
   width: 0.7rem;
   height: 0.7rem;
-  bottom: 0px;
+  bottom: 0;
   right: -6px;
 }
 
@@ -283,8 +283,8 @@ a {
 }
 
 .header__logo > img {
-  height: 4rem;
-  width: 4rem;
+  height: 3.2rem;
+  width: 3.2rem;
 }
 
 .header__logo > h1 {
@@ -1161,5 +1161,4 @@ a {
   display: block;
   font-weight: 500;
   color: var(--color-main);
-  font-weight: 1.4rem;
 }
