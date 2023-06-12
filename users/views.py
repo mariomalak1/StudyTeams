@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User as django_user_model
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.views import LogoutView
 from django.contrib import messages
-
+# from django.contrib.auth import RegisterView
 # Create your views here.
 
 def login_function(request):
@@ -20,7 +19,7 @@ def login_function(request):
                 return redirect("home")
         else:
             messages.add_message(request, messages.ERROR, "You Not Are In System Yet, You Can Sign Up From Here")
-            redirect("signup")
+            return redirect("signup")
     return render(request, "users/login.html")
 
 def logout_function(request):

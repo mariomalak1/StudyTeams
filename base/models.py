@@ -14,7 +14,10 @@ class Room(models.Model):
     updatedDateTime = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    topic = models.ForeignKey("Topic", on_delete=models.CASCADE, null = True) 
+    topic = models.ForeignKey("Topic", on_delete=models.CASCADE, null = True)
+
+    def __str__(self):
+        return self.topic.name + "-" + self.host.username
 
 
 class Message(models.Model):

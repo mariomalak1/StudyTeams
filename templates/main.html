@@ -19,6 +19,8 @@
         {% include "navbar.html" %}
     {% endblock %}
 
+    {% block WithNavBarOnly %}
+
     <main class="layout layout--3">
       <div class="container">
 
@@ -27,6 +29,9 @@
 
       </div>
     </main>
+
+    {% endblock %}
+
     <script src="{% static "JS/script.js" %}"></script>
   </body>
 </html>
