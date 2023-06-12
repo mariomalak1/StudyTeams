@@ -1,0 +1,69 @@
+.pagination-outer{ text-align: center; }
+.pagination{
+    font-family: 'Poppins', sans-serif;
+    display: inline-flex;
+    position: relative;
+}
+.pagination li a.page-link{
+    color: #333;
+    background: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 35px;
+    height: 35px;
+    width: 35px;
+    padding: 0;
+    margin: 0 5px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,.3),0 0 10px rgba(0,0,0,.05) inset;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease 0s;
+}
+.pagination li:first-child a.page-link,
+.pagination li:last-child a.page-link{
+    color: #0695c0;
+    font-size: 30px;
+    line-height: 34px;
+    font-weight: 400;
+}
+.pagination li a.page-link:hover,
+.pagination li a.page-link:focus,
+.pagination li.active a.page-link:hover,
+.pagination li.active a.page-link{
+    color: #fff;
+    background: transparent;
+}
+.pagination li a.page-link:before{
+    content: '';
+    background-color: #0695c0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3) inset;
+    transform-origin: right bottom;
+    transform: scale(0);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: all 0.3s ease 0s;
+}
+.pagination li a.page-link:hover:before,
+.pagination li a.page-link:focus:before,
+.pagination li.active a.page-link:hover:before,
+.pagination li.active a.page-link:before{
+    transform: scale(0.9);
+}
+@media only screen and (max-width: 480px){
+    .pagination{
+        font-size: 0;
+        display: inline-block;
+    }
+    .pagination li{
+        display: inline-block;
+        vertical-align: top;
+    }
+}

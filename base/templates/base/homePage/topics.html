@@ -5,7 +5,7 @@
     </div>
     <ul class="topics__list">
         <li>
-            <a href="{% url "home" %}" class="active">All <span>{{ topics.count }}</span></a>
+            <a href="{% url "home" %}" class="active">All <span>{{ number_of_all_rooms }}</span></a>
         </li>
 
         {% for topic_dict in most_topic_rooms %}
