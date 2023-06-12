@@ -2,24 +2,21 @@
 {% load static %}
 {% block WithNavBarOnly %}
         <main class="create-room layout">
-      <div class="container">
-        <div class="layout__box">
-          <div class="layout__boxHeader">
-            <div class="layout__boxTitle">
-              <a href="{% url "home" %}">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                  <title>arrow-left</title>
-                  <path
-                    d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"
-                  ></path>
-                </svg>
-              </a>
-              <h3>Browse Topics</h3>
-            </div>
-          </div>
-
-          <div class="topics-page layout__body">
-            <form class="header__search" method="GET">
+            <div class="container">
+                <div class="layout__box">
+                    <div class="layout__boxHeader">
+                        <div class="layout__boxTitle">
+                            <a href="{% url "home" %}">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">\
+                                    <title>arrow-left</title>
+                                    <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+                                </svg>
+                            </a>
+                            <h3>Browse Topics</h3>
+                        </div>
+                    </div>
+                    <div class="topics-page layout__body">
+            <form class="header__search" method="GET" id="myForm">
               <label>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                   <title>search</title>
@@ -28,14 +25,14 @@
                   ></path>
                 </svg>
 
-                <input onchange="get_value_create_request" type="text" id="topics_search" placeholder="Search for posts" />
+                <input type="text" id="topics_search" placeholder="Search for posts" />
 
               </label>
             </form>
 
             <ul class="topics__list">
                 <li>
-                    <a href="{% url "home" %}" class="active">All <span>{{ topics.count }}</span></a>
+                    <a href="{% url "home" %}" class="active">All <span>{{ paginator_obj.count }}</span></a>
                 </li>
                 {% for topic in topics %}
                     <li>
@@ -44,9 +41,56 @@
                 {% endfor %}
             </ul>
           </div>
-        </div>
-      </div>
-    </main>
+
+                    <div class="demo">
+                        <nav class="pagination-outer" aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    {% if topics.has_previous %}
+                                        {% if query_string %}
+                                            <a href="{% url "topics" %}/?topic={{ query_string }}&p={{ rooms_page.previous_page_number }}" class="page-link" aria-label="Previous">
+                                        {% else %}
+                                            <a href="{% url "topics" %}?p={{ rooms_page.previous_page_number }}" class="page-link" aria-label="Previous">
+                                        {% endif %}
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+
+                                {% for current_page_neighbour_number in current_page_neighbours %}
+                                    {% if current_page_number == current_page_neighbour_number  %}
+                                        <li class="page-item active"><a class="page-link">{{ current_page_number }}</a></li>
+                                    {% elif current_page_neighbour_number == '...' %}
+                                        <li class="page-item ">{{ current_page_neighbour_number }}</li>
+                                    {% else %}
+                                        {% if query_string %}
+                                            <li class="page-item"><a class="page-link" href="{% url "topics" %}?topic={{ topic_filter }}&p={{ current_page_neighbour_number }}">{{ current_page_neighbour_number }}</a></li>
+                                        {% else %}
+                                            <li class="page-item"><a class="page-link" href="{% url "home" %}?p={{ current_page_neighbour_number }}">{{ current_page_neighbour_number }}</a></li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+
+
+                                {% if topics.has_next %}
+                                    <li class="page-item">
+                                    {% if query_string %}
+                                        <a href="{% url "topics" %}?topic={{ topic_filter }}&p={{ rooms_page.next_page_number }}" class="page-link" aria-label="Next">
+                                    {% else %}
+                                        <a href="{% url "topics" %}?p={{ rooms_page.next_page_number }}" class="page-link" aria-label="Next">
+                                    {% endif %}
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
     <script src="{% static "JS/topics_search.js" %}">
     </script>
 {% endblock %}

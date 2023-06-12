@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.core.paginator import Paginator
 from .models import Room, Topic
+from django.http import JsonResponse
 # Create your views here.
 
 @login_required
@@ -66,19 +67,28 @@ def home(request):
     return render(request, "base\home.html", context)
 
 def all_topics_view(request):
-    topics_per_page = 5
-    query_search = request.POST.get('topic', '')
-    current_page_number = request.POST.get('p', '')
-    if query_search:
-        topics_ = Topic.objects.filter(name__icontains=query_search).all()
+    topics_per_page = 2
+    current_page_number = request.GET.get('p', '')
+    try:
+        current_page_number = int(current_page_number)
+    except:
+        current_page_number = 1
+
+    query_string = request.GET.get('topic', '')
+    print(query_string)
+    if query_string:
+        topics_ = Topic.objects.filter(name__icontains=query_string).all()
     else:
         topics_ = Topic.objects.all()
 
     topics = Paginator(topics_, topics_per_page)
-
+    topics_in_page = topics.get_page(current_page_number)
+    current_page_neighbours = list(topics.get_elided_page_range(current_page_number, on_each_side=1))
     context = {
         "paginator_obj": topics,
-        "topics": topics.object_list,
+        "topics": topics_in_page,
         "current_page_number": current_page_number,
+        "query_string": query_string,
+        "current_page_neighbours": current_page_neighbours,
     }
     return render(request, "base/topics.html", context)
