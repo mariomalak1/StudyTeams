@@ -71,12 +71,15 @@ def all_topics_view(request):
     current_page_number = request.GET.get('p', '')
     try:
         current_page_number = int(current_page_number)
+        if current_page_number <= 0:
+            current_page_number = 1
     except:
         current_page_number = 1
 
     query_string = request.GET.get('topic', '')
     print(query_string)
     if query_string:
+        query_string = query_string.strip()
         topics_ = Topic.objects.filter(name__icontains=query_string).all()
     else:
         topics_ = Topic.objects.all()
