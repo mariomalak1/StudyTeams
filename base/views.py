@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
@@ -7,7 +7,6 @@ from .models import Room, Topic
 from django.http import JsonResponse
 # Create your views here.
 
-@login_required
 def home(request):
     #  make filter rooms with topic
     topic_filter = request.GET.get('topic', '')
@@ -31,7 +30,7 @@ def home(request):
         topics = Topic.objects.filter(name__icontains=topic_filter).all()
         rooms_list = []
         for topic in topics:
-            rooms_ = Room.objects.filter(topic = topic).all()
+            rooms_ = Room.objects.filter(topic = topic).all().order_by('-createdDateTime')
             rooms_list.extend(rooms_)
 
         room_paginator = Paginator(rooms_list, number_rooms_in_page)
@@ -95,3 +94,22 @@ def all_topics_view(request):
         "current_page_neighbours": current_page_neighbours,
     }
     return render(request, "base/topics.html", context)
+
+@login_required
+def create_room(request):
+    if request.method == "POST":
+        room_name = request.POST.get("room_name", '')
+        topic_name = request.POST.get("topic", '')
+        room_about = request.POST.get("room_about", '')
+        if room_name and room_about and topic_name:
+            topic = Topic.objects.filter(name=topic_name).first()
+            room = Room.objects.create(name=room_name, description=room_about, topic=topic, host=request.user, )
+            room.save()
+            return redirect("home")
+        else:
+            messages.add_message(request, messages.ERROR, "Please Enter Valid Data")
+    return render(request, "base/create_room.html")
+
+def all_topics_json(request):
+    topics = Topic.objects.all().order_by('name')
+    return JsonResponse(topics)
