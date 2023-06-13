@@ -28,7 +28,6 @@
                             <input required type="text" name="topic" id="room_topic" list="topic-list"/>
                             <datalist id="topic-list">
                                 <select id="room_topic">
-                                    <option value="">Select your topic</option>
                                 </select>
                             </datalist>
                         </div>
@@ -46,4 +45,12 @@
             </div>
         </div>
     </main>
+
+
+    <script src="{% static "JS/topics.js" %}">
+        {#    to display all topics when the page is loaded    #}
+        window.onload = function (){
+            put_topics_in_select();
+        };
+    </script>
 {% endblock %}

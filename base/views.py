@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
 from django.core.paginator import Paginator
-from .models import Room, Topic
 from django.http import JsonResponse
+from django.core import serializers
+from .models import Room, Topic
 # Create your views here.
 
 def home(request):
@@ -101,15 +102,17 @@ def create_room(request):
         room_name = request.POST.get("room_name", '')
         topic_name = request.POST.get("topic", '')
         room_about = request.POST.get("room_about", '')
-        if room_name and room_about and topic_name:
-            topic = Topic.objects.filter(name=topic_name).first()
-            room = Room.objects.create(name=room_name, description=room_about, topic=topic, host=request.user, )
-            room.save()
-            return redirect("home")
-        else:
+        try:
+            if room_name and room_about and topic_name:
+                topic = Topic.objects.filter(name=topic_name).first()
+                room = Room.objects.create(name=room_name, description=room_about, topic=topic, host=request.user, )
+                room.save()
+                return redirect("home")
+        except:
             messages.add_message(request, messages.ERROR, "Please Enter Valid Data")
     return render(request, "base/create_room.html")
 
 def all_topics_json(request):
     topics = Topic.objects.all().order_by('name')
-    return JsonResponse(topics)
+    topic_serializer = serializers.serialize('json', topics)
+    return JsonResponse(topic_serializer, safe=False)

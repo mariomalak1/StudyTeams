@@ -11,21 +11,3 @@ form.addEventListener("submit",
         event.preventDefault();
     }
 )
-
-form.addEventListener("submit", function(event) {
-  // Prevent the form from being submitted
-  event.preventDefault();
-
-  // Perform any additional actions or validation here
-});
-
-    //     let xhr = new XMLHttpRequest();
-    //
-    // xhr.open("GET", , true);
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === 4) {
-    //         console.log(xhr.status);
-    //     }
-    // };
-    // xhr.send(JSON.stringify(val));
