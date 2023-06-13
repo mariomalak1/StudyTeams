@@ -1,5 +1,8 @@
 {% extends "main.html" %}
 {% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/pagination_style.css" %}">
+{% endblock %}
 {% block WithNavBarOnly %}
         <main class="create-room layout">
             <div class="container">
